@@ -1,73 +1,34 @@
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Pin {
-    private String name;
-    private String type;
-    private String group;
-    private int partNumber;
-    private Geometry geometry;
-    private Status status;
-    private ArrayList<Feature> features;
+public class Pin extends ObjectMain {
+    public Pin(Node nodeMain) {
+        super(nodeMain);
+        this.nodeMain = nodeMain;
+        this.geometry = new Geometry();
+        this.status = new Status();
+        this.features = new ArrayList<>();
 
+        NodeList startNode = this.nodeMain.getChildNodes();
+        //System.out.println("Object complete " + startNode.getLength());
 
-    public Pin(String name, String type, String group, int partNumber, Geometry geometry, Status status) {
-        this.name = name;
-        this.type = type;
-        this.group = group;
-        this.partNumber = partNumber;
-        this.geometry = geometry;
-        this.status = status;
-        ArrayList<Feature> features = new ArrayList<>();
-    }
+        for (int i = 0; i < startNode.getLength(); i++) {
+            if (startNode.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                switch (startNode.item(i).getNodeName()) {
+                    case "Geometry" -> setGeometry(startNode.item(i));// Записываем Геометрию
+                    case "Status" -> setStatus(startNode.item(i));// Записываем Статус
+                    case "Features" -> addFeature(startNode.item(i)); // Формируем list с Feature
+                }
+            }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public int getPartNumber() {
-        return partNumber;
-    }
-
-    public void setPartNumber(int partNumber) {
-        this.partNumber = partNumber;
-    }
-
-    public Geometry getGeometry() {
-        return geometry;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public ArrayList<Feature> getFeatures() {
-        return features;
-    }
-
-    public void addFeature (Feature feature) {
-        features.add(feature);
+        }
     }
 }
+
+
+
 
 

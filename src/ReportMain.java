@@ -106,6 +106,7 @@ public class ReportMain {
         System.out.println("X = " + board1.getGeometry().getSizeLocal()[0]);
         System.out.println("Y = " + board1.getGeometry().getSizeLocal()[1]);
         System.out.println("Z = " + board1.getGeometry().getSizeLocal()[2]);
+        System.out.println("+++++++++++++++++++Test Array Comp++++++++++++++++++++++++++");
         System.out.println(board1.comps.size());
         for(Node comp: board1.comps){
             NamedNodeMap attr = comp.getAttributes();// Получаем его атрибуты
@@ -115,6 +116,22 @@ public class ReportMain {
                 }
             }
         }
+        System.out.println("+++++++++++++++++Test Array Pin++++++++++++++++++++++++++");
+        Comp comp1 = new Comp(board1.comps.get(50));
+        System.out.println(comp1.pins.size());
+        for(Node pin: comp1.pins){
+            NamedNodeMap attr = pin.getAttributes();// Получаем его атрибуты
+            for (int j = 0; j < attr.getLength(); j++) {
+                if (attr.item(j).getNodeName().equals("Name")) {
+                    System.out.printf("%s, ", attr.item(j).getNodeValue());
+                }
+            }
+
+        }
+        System.out.println("========================Test Status Pin=================");
+        Pin pin1 = new Pin(comp1.pins.get(0));
+        System.out.printf("Full Test of Pin is: %b\n", pin1.getStatus().getOverall("IsFailed"));
+
 
 
 
